@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html data-ng-app="demoApp">
+
+<body ng-controller="SimpleController">
+
+	<div>
+
+		<input type="text" ng-model="exemptions" placeholder="Number of Exemptions" />
+		<br>
+		<input type="radio" ng-model="marital" value="Single"/>Single <br>
+		<input type="radio" ng-model="marital" value="Married" />Married<br>
+		<input type="text" ng-model="newhourlyWage" placeholder="Hourly Wage"/> 
+		<input type="text" ng-model="newhoursWorked" placeholder="Hours Worked"/> 
+		<br>
+		
+		<button ng-click="getPayroll()">Get Payroll</button>
+
+		<br>
+		
+		<br>
+		Hourly Wage: {{ hourlyWage | currency }}
+		<br>
+		Hours Worked: {{ hoursWorked }}
+		<br>
+		<hr>
+		Number of Exemptions: {{ exemptions }}
+		<br>
+		Marital Status:  {{ marital }}
+		
+		<br>
+		Overtime Hours:  {{ overtimeHours }}
+		<br>
+		Overtime Wage per hour:  {{ overtimeWage | currency }}
+		<br>
+		Gross Earnings: {{ gross | currency }}
+		<br>
+		Social Security Tax: {{ social | currency }}
+		<br>
+		Medicare Tax:  {{ medicare | currency }}
+		<br>
+		FICA Tax (Medicare Tax + Social Security Tax):  {{ fica | currency }}
+		<br>
+		Adjusted Gross Income:  {{ AGI | currency }}
+		<br>
+		Income Tax Withheld: {{ income | currency  }}
+		<br>
+		Net Earnings:  {{ net | currency }}
+		
+
+		
+
+	</div>
+
+
+
+
+
+
+
+
+<script src="https://code.angularjs.org/1.2.0/angular.min.js"></script>
+
+<script type="text/javascript">
+
+var demoApp = angular.module('demoApp',[]);
+
+var controllers = {};
+
+controllers.SimpleController = function($scope) {
+	$scope.marital = 'Single';
+	
+	
+	
+
+	$scope.getPayroll = function() {
+		$scope.hourlyWage = $scope.newhourlyWage;
+		$scope.hoursWorked = $scope.newhoursWorked;
+
+		//get gross income
+		if($scope.hoursWorked > 40)
+		{
+			$scope.overtimeWage = $scope.hourlyWage * 1.5;
+			$scope.overtimeHours = $scope.hoursWorked - 40;
+			$scope.gross = ($scope.hourlyWage * 40) + ($scope.overtimeWage * $scope.overtimeHours);
+
+		}
+		else
+		{
+			$scope.overtimeWage = 0;
+			$scope.overtimeHours = 0;	
+			$scope.gross = $scope.hoursWorked * $scope.hourlyWage;
+		}
+
+		//get social security tax
+		$scope.social = $scope.gross * 0.062;
+
+		//get medicare tax
+		$scope.medicare = $scope.gross * 0.0145;
+
+		//get FICA tax (medicare + social security tax)
+		$scope.fica = $scope.social + $scope.medicare;
+
+		//get marital status
+		if($scope.marital == 'Single') 
+		{
+			$scope.marital = 'Single';
+		}
+		else 
+		{
+			$scope.marital = 'Married';
+		}
+
+		$scope.AGI = $scope.gross - ($scope.exemptions * 55.77);
+
+		if($scope.AGI > 5000)
+		{
+			if($scope.marital == 'Single')
+			{
+				$scope.income = 845 + ($scope.AGI - 5000)*(0.25);
+			}
+			else {
+				$scope.income = 650 + ($scope.AGI - 5000)*(0.20);
+			}
+		}
+
+		if($scope.AGI >= 2501)
+		{
+			if($scope.marital == 'Single')
+			{
+				$scope.income = 345 + ($scope.AGI - 2500)*(0.20);
+			}
+			else {
+				$scope.income = 225.50 + ($scope.AGI - 2500)*(0.15);
+			}
+		}
+
+		if($scope.AGI >= 501)
+		{
+			if($scope.marital == 'Single')
+			{
+				$scope.income = 45 + ($scope.AGI - 500)*(0.15);
+			}
+			else {
+				$scope.income = 22.50 + ($scope.AGI - 500)*(0.10);
+			}
+		}
+
+		if($scope.AGI >= 51)
+		{
+			if($scope.marital == 'Single')
+			{
+				$scope.income = ($scope.AGI - 51)*(0.10);
+			}
+			else {
+				$scope.income = ($scope.AGI - 51)*(0.05);
+			}
+		}
+		else
+		{
+			$scope.income = 0;
+		}
+
+		//get net pay
+		$scope.net = $scope.gross - $scope.fica - $scope.income;
+
+
+
+
+
+		
+
+			
+	};//end getPayroll function
+
+	
+	
+
+	
+	
+};
+
+demoApp.controller(controllers);
+
+
+
+</script>
+</body>
+
+</html>

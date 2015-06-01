@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html data-ng-app="demoApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Jason Dinh</title>
+
+    <!-- Bootstrap Core CSS -->
+    
+    <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS -->
+    <link href="https://bootswatch.com/superhero/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+   
+
+</head>
+
+<body ng-controller="SimpleController">
+   
+  
+
+   <div class="container custom-header-container">
+
+    <div class="row">
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 custom-header">
+            <h1>Payroll Application</h1>
+            <p>By <a href="http://www.jasondinh.me">Jason Dinh</a></p>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+
+        </div>
+
+    </div>
+
+   </div>
+
+
+
+
+   <div class="container">
+
+    <div class="row">
+
+        <div class="col-sm-1 col-md-1 col-lg-1">
+
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 custom-form">
+           <form class="form-horizontal ">
+              <fieldset>
+                <legend style="margin-left:3px;">Start Here</legend>
+                <div class="form-group">
+                  <label for="hourlyWage" class="col-lg-5 control-label">Hourly Wage</label>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" id="hourlyWage" ng-model="newhourlyWage"  placeholder="0">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="hoursWorked" class="col-lg-5 control-label">Hours Worked</label>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" id="hoursWorked" ng-model="newhoursWorked" placeholder="0">
+                    
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exemptions" class="col-lg-5 control-label">Number of Exemptions</label>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" id="exemptions" ng-model="exemptions"placeholder="0">
+                    
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <label class="col-lg-5 control-label">Marital Status</label>
+                  <div class="col-lg-5">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" ng-model="marital" value="Single">
+                        Single
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" ng-model="marital" value="Married">
+                        Married
+                      </label>
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="form-group">
+                  <div class="col-lg-10 col-lg-offset-6">
+                    
+                    <button ng-click="getPayroll()" class="btn btn-primary">Get Payroll</button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+        </div>
+
+        <div class="col-sm-1 col-md-1 col-lg-1">
+
+        </div>
+
+        
+        
+
+        
+
+        <div class="col-sm-5 col-md-5 col-lg-5 panels-container">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Employee Information</h1>
+                </div>
+                <div class="panel-body">
+                    <p>Hourly Wage: <span style="color:yellow;">{{ hourlyWage | currency }}</span></p>
+                    <p>Hours Worked: <span style="color:yellow;">{{ hoursWorked }}</span></p>
+                    <p>Number of Exemptions: <span style="color:yellow;">{{ exemptions }}</span></p>
+                    <p>Marital Status: <span style="color:yellow;">{{ marital }}</span></p>
+                    <p>Overtime Hours:  <span style="color:yellow;">{{ overtimeHours }}</span></p>
+                    <p>Overtime Wage per hour:  <span style="color:yellow;">{{ overtimeWage | currency }}</span></p>
+                </div>
+            </div>
+
+             <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Employee Payroll</h1>
+                </div>
+                <div class="panel-body">
+                    <p>Gross Earnings: <span style="color:yellow;">{{ gross | currency }}</span></p>
+                    <p>Social Security Tax: <span style="color:yellow;">{{ social | currency }}</span></p>
+                    <p>Medicare Tax: <span style="color:yellow;">{{ medicare | currency }}</span></p>
+                    <p>FICA TAX: <span style="color:yellow;">{{ fica | currency }}</span></p>
+                    <p>Adjusted Gross Income: <span style="color:yellow;">{{ AGI | currency }}</span></p>
+                    <p>Income Tax Withheld: <span style="color:yellow;">{{ income | currency  }}</span></p>
+                    <p>Net Earnings: <span style="color:yellow;">{{ net | currency }}</span></p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-1 col-md-1 col-lg-1">
+
+        </div>
+
+    </div>
+
+   </div>
+
+
+   
+   
+    <!-- Footer -->
+    
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://code.angularjs.org/1.2.0/angular.min.js"></script>
+
+    <script type="text/javascript">
+
+            var demoApp = angular.module('demoApp',[]);
+
+            var controllers = {};
+
+            controllers.SimpleController = function($scope) {
+                $scope.marital = 'Single';
+                
+                
+                
+
+                $scope.getPayroll = function() {
+                    $scope.hourlyWage = $scope.newhourlyWage;
+                    $scope.hoursWorked = $scope.newhoursWorked;
+
+                    //get gross income
+                    if($scope.hoursWorked > 40)
+                    {
+                        $scope.overtimeWage = $scope.hourlyWage * 1.5;
+                        $scope.overtimeHours = $scope.hoursWorked - 40;
+                        $scope.gross = ($scope.hourlyWage * 40) + ($scope.overtimeWage * $scope.overtimeHours);
+
+                    }
+                    else
+                    {
+                        $scope.overtimeWage = 0;
+                        $scope.overtimeHours = 0;   
+                        $scope.gross = $scope.hoursWorked * $scope.hourlyWage;
+                    }
+
+                    //get social security tax
+                    $scope.social = $scope.gross * 0.062;
+
+                    //get medicare tax
+                    $scope.medicare = $scope.gross * 0.0145;
+
+                    //get FICA tax (medicare + social security tax)
+                    $scope.fica = $scope.social + $scope.medicare;
+
+                    //get marital status
+                    if($scope.marital == 'Single') 
+                    {
+                        $scope.marital = 'Single';
+                    }
+                    else 
+                    {
+                        $scope.marital = 'Married';
+                    }
+
+                    $scope.AGI = $scope.gross - ($scope.exemptions * 55.77);
+                    $scope.income = 0;
+
+                    if($scope.AGI > 5000)
+                    {
+                        if($scope.marital == 'Single')
+                        {
+                            $scope.income = 845 + ($scope.AGI - 5000)*(0.25);
+                        }
+                        else {
+                            $scope.income = 600.50 + ($scope.AGI - 5000)*(0.20);
+                            
+                        }
+                    }
+
+                    if($scope.AGI >= 2501 && $scope.income == 0)
+                    {
+                        if($scope.marital == 'Single')
+                        {
+                            $scope.income = 345 + ($scope.AGI - 2500)*(0.20);
+                        }
+                        else {
+                            $scope.income = 225.50 + ($scope.AGI - 2500)*(0.15);
+                        }
+                    }
+
+                    if($scope.AGI >= 501 && $scope.income == 0)
+                    {
+                        if($scope.marital == 'Single')
+                        {
+                            $scope.income = 45 + ($scope.AGI - 500)*(0.15);
+
+                        }
+                        else {
+                            $scope.income = 22.50 + ($scope.AGI - 500)*(0.10);
+
+                        }
+                    }
+
+                    if($scope.AGI >= 51 && $scope.income == 0)
+                    {
+                        if($scope.marital == 'Single')
+                        {
+                            $scope.income = ($scope.AGI - 51)*(0.10);
+                        }
+                        else {
+                            $scope.income = ($scope.AGI - 51)*(0.05);
+                        }
+                    }
+                   
+
+
+                    //get net pay
+                    $scope.net = $scope.gross - $scope.fica - $scope.income;
+
+
+
+
+
+                    
+
+                        
+                };//end getPayroll function
+
+                
+                
+
+                
+                
+            };
+
+            demoApp.controller(controllers);
+
+
+
+</script>
+
+</body>
+
+</html> 
